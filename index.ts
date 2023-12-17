@@ -16,8 +16,8 @@ configure({
 class Theme extends Model({
   dark: tProp(false).withSetter(),
 }) {
-  @computed backgroundColor = this.dark ? "#444" : "#ddd";
-  @computed color = this.dark ? "#fff" : "#000";
+  @computed get backgroundColor() { return this.dark ? "#444" : "#ddd"; }
+  @computed get color() { return this.dark ? "#fff" : "#000"; }
 }
 
 // -----------------------------------------------------------------------------
