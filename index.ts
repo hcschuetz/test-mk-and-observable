@@ -25,28 +25,20 @@ class Theme extends Model({
 
 class MyElement extends HTMLElement {
   /*
-  Instead of calling makeObservable in the constructor I would prefer
-  to just prepend "@observable accessor" to the property declarations.
+  A while ago @observable did not work
+  (see https://github.com/xaviergonz/mobx-keystone/discussions/533)
+  and I had to call makeObservable in the constructor.
 
-  According to https://mobx.js.org/enabling-decorators.html this requires
-  the TypeScript compiler option "experimentalDecorators" to be unset.
-  But then the compiler leaves the `@model` above in the JS code, which
-  Firefox 120 does not like.
+  Now that https://github.com/evanw/esbuild/issues/104 is closed and fixed
+  (and current vite apparently uses esbuild 0.21.5),
+  I hoped that @observable works and a constructor is not needed anymore.
 
-  Is there a way to have both mobx-keystone class annotations and
-  mobx accessor annotations with the same TypeScript config?
+  But still I could not convince esbuild to transform the following code,
+  even though I set "target" to "ES2020" and disabled "experimentalDecorators"
+  in tsconfig.json
   */
-
-  backgroundColor: string;
-  color: string;
-
-  constructor() {
-    super();
-    makeObservable(this, {
-      backgroundColor: observable,
-      color: observable,
-    });
-  }
+  @observable accessor backgroundColor: string = "yellow";
+  @observable accessor color: string = "black";
 
   connectedCallback() {
     this.style.border = "1px solid black";
